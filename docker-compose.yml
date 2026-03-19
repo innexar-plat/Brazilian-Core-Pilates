@@ -1,0 +1,7 @@
+services:
+  pilates:
+    build: .
+    container_name: brazilian-core-pilates
+    ports:
+      - "3000:80"
+    restart: unless-stopped
