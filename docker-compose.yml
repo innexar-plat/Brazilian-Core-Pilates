@@ -2,6 +2,19 @@ services:
   pilates:
     build: .
     container_name: brazilian-core-pilates
-    ports:
-      - "3000:80"
+    labels:
+      - "traefik.enable=true"
+      - "traefik.docker.network=fixelo_fixelo-network"
+      - "traefik.http.routers.pilates.rule=Host(`pilates.innexar.app`)"
+      - "traefik.http.routers.pilates.entrypoints=web,websecure"
+      - "traefik.http.routers.pilates.tls=true"
+      - "traefik.http.routers.pilates.tls.certresolver=letsencrypt"
+      - "traefik.http.services.pilates.loadbalancer.server.port=80"
+    networks:
+      - default
+      - fixelo_fixelo-network
     restart: unless-stopped
+
+networks:
+  fixelo_fixelo-network:
+    external: true
